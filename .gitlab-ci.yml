@@ -35,4 +35,10 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - scp ./build/* deploy@185.251.90.153:~/realworld
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - rsync -a --progress --human-readable --delete
+      --exclude-from '.gitignore'
+      --exclude .gitignore
+      --exclude .git
+      ./build/* deploy@185.251.90.153:~/realworld/public
+
